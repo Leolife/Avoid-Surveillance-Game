@@ -5,13 +5,18 @@ using UnityEngine;
 public class isDetected : MonoBehaviour
 {
     public Camera camera;
-    SkinnedMeshRenderer renderer; //no need
+    GameObject cameraColor; //NEW
+    SkinnedMeshRenderer skinnedRenderer;
+    //MeshRenderer renderer;
     Plane[] cameraFrustum;
     Collider collider;
+    
 
     void Start()
     {
-        renderer = GetComponent<SkinnedMeshRenderer>(); //no need
+        cameraColor = GameObject.FindGameObjectWithTag("securityCamera"); //NEW
+        skinnedRenderer = GetComponent<SkinnedMeshRenderer>();
+        //renderer = GetComponent<MeshRenderer>();
         collider = GetComponent<Collider>();
     }
 
@@ -22,11 +27,14 @@ public class isDetected : MonoBehaviour
         cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
         if (GeometryUtility.TestPlanesAABB(cameraFrustum, bounds))
         {
-            renderer.sharedMaterial.color = Color.red;
+            skinnedRenderer.sharedMaterial.color = Color.red;
+            cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.red;
         }
         else
         {
-            renderer.sharedMaterial.color = Color.green;
+            skinnedRenderer.sharedMaterial.color = Color.green;
+            cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.green;
+
         }
     }
 }
