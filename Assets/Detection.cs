@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class isDetected : MonoBehaviour
+public class Detection : MonoBehaviour
 {
     public new Camera camera;
     GameObject cameraColor;
@@ -54,7 +54,7 @@ public class isDetected : MonoBehaviour
         }
     }
 
-    public bool isDetectedFunction()
+    public bool isDetected()
     {
         return detected;
     }
@@ -72,6 +72,6 @@ public class isDetected : MonoBehaviour
     public void resetWarningCountdown()
     {
         count = 3;
-    }    
+    }
 
 }
