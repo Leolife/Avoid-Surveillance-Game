@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class isDetected : MonoBehaviour
 {
@@ -10,6 +13,9 @@ public class isDetected : MonoBehaviour
     Plane[] cameraFrustum;
     new Collider collider;
 
+    public TextMeshProUGUI countdown;
+    private float count = 3;
+    public GameObject detectedWarning;
     public bool detected = false;
 
     void Start()
@@ -35,10 +41,37 @@ public class isDetected : MonoBehaviour
             skinnedRenderer.sharedMaterial.color = Color.green;
             cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.green;
         }
+
+        if (detected)
+        {
+            detectedWarning.SetActive(true);
+            startWarningCountdown();
+        }
+        else
+        {
+            detectedWarning.SetActive(false);
+            resetWarningCountdown();
+        }
     }
 
     public bool isDetectedFunction()
     {
         return detected;
     }
+
+    public void startWarningCountdown()
+    {
+        if (count >= 0)
+        {
+            count -= Time.deltaTime;
+            int roundedCount = Mathf.RoundToInt(count);
+            countdown.text = roundedCount.ToString();
+        }
+    }
+
+    public void resetWarningCountdown()
+    {
+        count = 3;
+    }    
+
 }
