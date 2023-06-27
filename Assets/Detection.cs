@@ -17,6 +17,7 @@ public class Detection : MonoBehaviour
     private float count = 3;
     public GameObject detectedWarning;
     public bool detected = false;
+    public bool lost = false;
 
     void Start()
     {
@@ -66,12 +67,21 @@ public class Detection : MonoBehaviour
             count -= Time.deltaTime;
             int roundedCount = Mathf.RoundToInt(count);
             countdown.text = roundedCount.ToString();
+            if (roundedCount == 0)
+                lost = true;
+            else 
+                lost = false;
         }
     }
 
     public void resetWarningCountdown()
     {
         count = 3;
+    }
+
+    public bool isLost()
+    {
+        return lost;
     }
 
 }
