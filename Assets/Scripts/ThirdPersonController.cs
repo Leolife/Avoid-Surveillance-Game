@@ -1,4 +1,5 @@
-﻿ using UnityEngine;
+﻿using UnityEditor.ShaderKeywordFilter;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -14,6 +15,11 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
+        [SerializeField] private Vector3 HeadPosition; //NEW
+        //[SerializeField] private bool Crouch = false; //NEW
+        [SerializeField] private bool CanStand; //NEW
+
+
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -97,6 +103,7 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animIDCrouch; //NEW
 
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
@@ -156,6 +163,7 @@ namespace StarterAssets
         {
             _hasAnimator = TryGetComponent(out _animator);
 
+            Crouching(); //NEW
             JumpAndGravity();
             GroundedCheck();
             Move();
@@ -173,6 +181,7 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDCrouch = Animator.StringToHash("Crouch"); //NEW
         }
 
         private void GroundedCheck()
@@ -214,7 +223,15 @@ namespace StarterAssets
         private void Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            float targetSpeed; //NEW
+            if (!_input.crouch && _input.sprint) //NEW
+            {
+                targetSpeed = SprintSpeed;
+            }
+            else //NEW
+            {
+                targetSpeed = MoveSpeed;
+            }
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -386,6 +403,39 @@ namespace StarterAssets
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+            }
+        }
+
+        void Crouching() //NEW
+        {
+            if (Grounded && !_input.sprint)
+            {
+                if (Input.GetKey(KeyCode.C))
+                {
+                    _input.crouch = true;
+                }
+                else
+                {
+                    _input.crouch = false;
+                }
+
+                if (_input.crouch)
+                {
+                    if (_hasAnimator)
+                    {
+                        _animator.SetBool(_animIDCrouch, true);
+                    }
+                    //_controller.height = 0.9f; //NEW
+                }
+                else
+                {
+                    if (_hasAnimator)
+                    {
+                        _animator.SetBool(_animIDCrouch, false);
+                        //_controller.height = 1.8f;
+                    }
+                    //_controller.height = 0.9f; //NEW
+                }
             }
         }
     }
