@@ -222,7 +222,7 @@ namespace StarterAssets
 
         private void Move()
         {
-            // set target speed based on move speed, sprint speed and if sprint is pressed
+            // set target speed based on move speed, sprint speed and if sprint is pressed; cannot sprint if crouched
             float targetSpeed; //NEW
             if (!_input.crouch && _input.sprint) //NEW
             {
@@ -408,11 +408,12 @@ namespace StarterAssets
 
         void Crouching() //NEW
         {
-            if (Grounded && !_input.sprint)
+            if (Grounded)
             {
                 if (Input.GetKey(KeyCode.C))
                 {
                     _input.crouch = true;
+                    _speed = 2f;
                 }
                 else
                 {
