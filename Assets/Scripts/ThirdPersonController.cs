@@ -15,8 +15,7 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
-        [SerializeField] private Vector3 HeadPosition; //NEW
-        //[SerializeField] private bool Crouch = false; //NEW
+        [SerializeField] private GameObject SpinePosition; //NEW
         [SerializeField] private bool CanStand; //NEW
 
 
@@ -410,6 +409,20 @@ namespace StarterAssets
         {
             if (Grounded)
             {
+                Vector3 boxSize = new Vector3(0.4f, 0.4f, 0.4f);
+                float castDistance = 5f;
+                RaycastHit hitInfo;
+                if (Physics.BoxCast(SpinePosition.transform.position, boxSize / 2f, Vector3.up, out hitInfo, Quaternion.identity, castDistance))
+                {
+                    CanStand = false;
+                    Debug.DrawRay(SpinePosition.transform.position, Vector3.up, Color.green);
+                }
+                else
+                {
+                    CanStand = true;
+                }
+
+
                 if (Input.GetKey(KeyCode.C))
                 {
                     _input.crouch = true;
@@ -420,22 +433,29 @@ namespace StarterAssets
                     _input.crouch = false;
                 }
 
+
                 if (_input.crouch)
                 {
+                    _input.jump = false;
                     if (_hasAnimator)
                     {
                         _animator.SetBool(_animIDCrouch, true);
                     }
-                    //_controller.height = 0.9f; //NEW
+                    _controller.height = 0.9f;
+                    _controller.center = new Vector3(0f, 0.55f, 0f);
+                }
+                else if (CanStand == false)
+                {
+                    _input.crouch = true;
                 }
                 else
                 {
                     if (_hasAnimator)
                     {
                         _animator.SetBool(_animIDCrouch, false);
-                        //_controller.height = 1.8f;
                     }
-                    //_controller.height = 0.9f; //NEW
+                    _controller.height = 1.8f;
+                    _controller.center = new Vector3(0f, 0.93f, 0f);
                 }
             }
         }
