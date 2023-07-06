@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class Detection : MonoBehaviour
 {
-    public new Camera camera;
+    public new Camera[] camera;
     GameObject cameraColor;
     SkinnedMeshRenderer skinnedRenderer;
     Plane[] cameraFrustum;
@@ -30,7 +30,11 @@ public class Detection : MonoBehaviour
     void Update()
     {
         var bounds = collider.bounds;
-        cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
+        for (int i = 0; i < camera.Length; i++)
+        {
+            cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera[i]);
+        }
+        //cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
         if (GeometryUtility.TestPlanesAABB(cameraFrustum, bounds))
         {
             detected = true;
@@ -43,6 +47,7 @@ public class Detection : MonoBehaviour
             skinnedRenderer.sharedMaterial.color = Color.green;
             cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.green;
         }
+
 
         if (detected)
         {
