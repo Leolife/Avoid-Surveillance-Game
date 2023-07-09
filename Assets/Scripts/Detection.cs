@@ -8,17 +8,16 @@ using UnityEngine.UI;
 
 public class Detection : MonoBehaviour
 {
-    public new Camera[] camera;
-    GameObject cameraColor;
-    SkinnedMeshRenderer skinnedRenderer;
-    Plane[] cameraFrustum;
-    new Collider collider;
+    public Camera[] cameras;
+    public GameObject cameraColor;
+    public SkinnedMeshRenderer skinnedRenderer;
+    public new Collider collider;
 
     public TextMeshProUGUI countdown;
     private float count = 3;
     public GameObject detectedWarning;
     public bool detected = false;
-    public bool lost = false;
+    public bool loseGame = false;
 
     void Start()
     {
@@ -30,32 +29,30 @@ public class Detection : MonoBehaviour
     void Update()
     {
         var bounds = collider.bounds;
-        for (int i = 0; i < camera.Length; i++)
-        {
-            cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera[i]);
-        }
-        //cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
-        if (GeometryUtility.TestPlanesAABB(cameraFrustum, bounds))
-        {
-            detected = true;
-            skinnedRenderer.sharedMaterial.color = Color.red;
-            cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.red;
-        }
-        else
-        {
-            detected = false;
-            skinnedRenderer.sharedMaterial.color = Color.green;
-            cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.green;
-        }
+        detected = false;
 
+        foreach (var camera in cameras)
+        {
+            Plane[] cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
+
+            if (GeometryUtility.TestPlanesAABB(cameraFrustum, bounds))
+            {
+                detected = true;
+                break;
+            }
+        }
 
         if (detected)
         {
+            skinnedRenderer.sharedMaterial.color = Color.red;
+            cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.red;
             detectedWarning.SetActive(true);
             startWarningCountdown();
         }
         else
         {
+            skinnedRenderer.sharedMaterial.color = Color.green;
+            cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.green;
             detectedWarning.SetActive(false);
             resetWarningCountdown();
         }
@@ -74,9 +71,9 @@ public class Detection : MonoBehaviour
             int roundedCount = Mathf.RoundToInt(count);
             countdown.text = roundedCount.ToString();
             if (roundedCount == 0)
-                lost = true;
+                loseGame = true;
             else 
-                lost = false;
+                loseGame = false;
         }
     }
 
@@ -87,7 +84,7 @@ public class Detection : MonoBehaviour
 
     public bool isLost()
     {
-        return lost;
+        return loseGame;
     }
 
 }

@@ -325,13 +325,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57166fe22b9c5c442b60e37761ab964e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera:
+  cameras:
   - {fileID: 1743644852}
   - {fileID: 870691123}
+  cameraColor: {fileID: 0}
+  skinnedRenderer: {fileID: 0}
+  collider: {fileID: 0}
   countdown: {fileID: 1298677767}
   detectedWarning: {fileID: 1671927594}
   detected: 0
-  lost: 0
+  loseGame: 0
 --- !u!1001 &469706223
 PrefabInstance:
   m_ObjectHideFlags: 0
