@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6264060208083866756}
   - component: {fileID: 8022073721471710236}
   m_Layer: 0
-  m_Name: Stairs_650_400_300_Prefab
+  m_Name: Stairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
