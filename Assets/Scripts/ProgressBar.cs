@@ -9,15 +9,22 @@ public class ProgressBar : MonoBehaviour
     public int max;
     public float current;
     public Image Mask;
+
+    Detection detect;
+
     void Start()
     {
+        detect = GameObject.FindGameObjectWithTag("character").GetComponent<Detection>();
         max = 10;
         current = 0;
     }
 
     void Update()
     {
-        fillSuspicionBar();
+        if (detect.detected) //this if statement optimizes for FPS
+        {
+            fillSuspicionBar();
+        }
     }
 
     public void fillSuspicionBar()
