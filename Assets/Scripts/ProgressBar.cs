@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ProgressBar : MonoBehaviour
 {
     public int max;
-    public int current;
+    public float current;
     public Image Mask;
     void Start()
     {
@@ -17,7 +17,12 @@ public class ProgressBar : MonoBehaviour
 
     void Update()
     {
-        float progress = (float)current / (float)max;
+        fillSuspicionBar();
+    }
+
+    public void fillSuspicionBar()
+    {
+        float progress = current / (float)max;
         Mask.fillAmount = progress;
     }
 }

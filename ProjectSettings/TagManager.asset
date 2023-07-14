@@ -9,6 +9,7 @@ TagManager:
   - securityCamera
   - warningUI
   - movingCamera
+  - suspicionBar
   layers:
   - Default
   - TransparentFX

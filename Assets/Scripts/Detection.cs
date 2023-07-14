@@ -13,14 +13,14 @@ public class Detection : MonoBehaviour
     public SkinnedMeshRenderer skinnedRenderer;
     public new Collider collider;
 
-    public TextMeshProUGUI countdown;
-    private float count = 3;
-    public GameObject detectedWarning;
+    public ProgressBar suspicion;
+
     public bool detected = false;
     public bool loseGame = false;
 
     void Start()
     {
+        suspicion = GameObject.FindGameObjectWithTag("suspicionBar").GetComponent<ProgressBar>();
         cameraColor = GameObject.FindGameObjectWithTag("securityCamera");
         skinnedRenderer = GetComponent<SkinnedMeshRenderer>();
         collider = GetComponent<Collider>();
@@ -46,40 +46,28 @@ public class Detection : MonoBehaviour
         {
             skinnedRenderer.sharedMaterial.color = Color.red;
             cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.red;
-            detectedWarning.SetActive(true);
-            startWarningCountdown();
+            suspicionBar();
         }
         else
         {
             skinnedRenderer.sharedMaterial.color = Color.green;
             cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.green;
-            detectedWarning.SetActive(false);
-            resetWarningCountdown();
         }
+    }
+
+    public void suspicionBar()
+    {
+        if (suspicion.current < 10)
+            suspicion.current += Time.deltaTime;
+        if (suspicion.current >= suspicion.max)
+            loseGame = true;
+        else
+            loseGame = false;
     }
 
     public bool isDetected()
     {
         return detected;
-    }
-
-    public void startWarningCountdown()
-    {
-        if (count >= 0)
-        {
-            count -= Time.deltaTime;
-            int roundedCount = Mathf.RoundToInt(count);
-            countdown.text = roundedCount.ToString();
-            if (roundedCount == 0)
-                loseGame = true;
-            else 
-                loseGame = false;
-        }
-    }
-
-    public void resetWarningCountdown()
-    {
-        count = 3;
     }
 
     public bool isLost()
