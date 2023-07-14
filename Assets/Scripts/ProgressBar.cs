@@ -17,6 +17,7 @@ public class ProgressBar : MonoBehaviour
         detect = GameObject.FindGameObjectWithTag("character").GetComponent<Detection>();
         max = 10;
         current = 0;
+        fillSuspicionBar(); //this is so that the bar appears empty at the start (how it should appear)
     }
 
     void Update()
