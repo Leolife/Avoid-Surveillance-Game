@@ -59,10 +59,7 @@ public class Detection : MonoBehaviour
     {
         if (suspicion.current < 10)
             suspicion.current += Time.deltaTime;
-        if (suspicion.current >= suspicion.max)
-            loseGame = true;
-        else
-            loseGame = false;
+        loseGame = suspicion.current >= suspicion.max ? true : false;
     }
 
     public bool isDetected()

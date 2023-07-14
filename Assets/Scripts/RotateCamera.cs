@@ -6,8 +6,8 @@ using UnityEngine;
 public class RotateCamera : MonoBehaviour
 {
     public GameObject cameraObject;
-    public float largeTargetRotationY = 327.0f;
-    public float smallTargetRotationY = 210.0f;
+    public float largeTargetRotationY = 327;
+    public float smallTargetRotationY = 210;
     public float rotationSpeed = 0.1f;
     private bool rotateClockwise = true;
 
@@ -26,14 +26,7 @@ public class RotateCamera : MonoBehaviour
             rotateClockwise = !rotateClockwise;
         }
 
-        if (rotateClockwise)
-        {
-            rotationDirection = 1.0f;
-        }
-        else
-        {
-            rotationDirection = -1.0f;
-        }
+        rotationDirection = rotateClockwise ? 1 : -1;
 
         cameraObject.transform.Rotate(0.0f, rotationSpeed * rotationDirection, 0.0f, Space.Self);
     }
