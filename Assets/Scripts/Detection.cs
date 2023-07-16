@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class Detection : MonoBehaviour
 {
-    public GameObject completionMarker; //NEW
+    public GameObject completionMarker;
 
     public Camera[] cameras;
     public GameObject cameraColor;
@@ -18,7 +18,7 @@ public class Detection : MonoBehaviour
 
     public ProgressBar suspicion;
 
-    public bool stageComplete = false; //NEW
+    public bool stageComplete = false;
     public bool detected = false;
     public bool loseGame = false;
 
