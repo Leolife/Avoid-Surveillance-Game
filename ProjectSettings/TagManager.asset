@@ -10,6 +10,7 @@ TagManager:
   - warningUI
   - movingCamera
   - suspicionBar
+  - stageComplete
   layers:
   - Default
   - TransparentFX

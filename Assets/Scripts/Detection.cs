@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using TMPro;
+using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Detection : MonoBehaviour
 {
+    public GameObject completionMarker; //NEW
+
     public Camera[] cameras;
     public GameObject cameraColor;
     public SkinnedMeshRenderer skinnedRenderer;
@@ -15,6 +18,7 @@ public class Detection : MonoBehaviour
 
     public ProgressBar suspicion;
 
+    public bool stageComplete = false; //NEW
     public bool detected = false;
     public bool loseGame = false;
 
@@ -52,6 +56,14 @@ public class Detection : MonoBehaviour
         {
             skinnedRenderer.sharedMaterial.color = Color.green;
             cameraColor.GetComponent<MeshRenderer>().sharedMaterial.color = Color.green;
+        }
+
+        Vector3 boxSize = new Vector3(0.4f, 0.4f, 0.4f);
+        float castDistance = 5f;
+        RaycastHit hitInfo;
+        if (Physics.BoxCast(completionMarker.transform.position, boxSize / 2f, Vector3.up, out hitInfo, Quaternion.identity, castDistance))
+        {
+            stageComplete = true;
         }
     }
 
