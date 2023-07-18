@@ -82,7 +82,7 @@ public class ScreenManager : MonoBehaviour
     {
         playerController.disabled = true;
         yield return new WaitForSeconds(0.01f);
-        player.transform.position = new Vector3(5.3f, 3f, -6.5f);
+        player.transform.position = new Vector3(5.3f, 0.5f, -6.5f);
         player.transform.rotation = Quaternion.Euler(0, 0, 0);
         yield return new WaitForSeconds(0.01f);
         detection.completedCounter = 0; 
