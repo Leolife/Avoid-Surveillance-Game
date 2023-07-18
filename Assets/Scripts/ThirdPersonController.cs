@@ -85,6 +85,7 @@ namespace StarterAssets
         private float _cinemachineTargetPitch;
 
         // player
+        public bool disabled =  false; //NEW
         private float _speed;
         private float _animationBlend;
         private float _targetRotation = 0.0f;
@@ -161,11 +162,13 @@ namespace StarterAssets
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
-
-            Crouching(); //NEW
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
+            if (!disabled)
+            {
+                Crouching(); //NEW
+                JumpAndGravity();
+                GroundedCheck();
+                Move();
+            }
         }
 
         private void LateUpdate()

@@ -18,6 +18,8 @@ public class Detection : MonoBehaviour
 
     public ProgressBar suspicion;
 
+    public int completedCounter = 0; //this counter lets me add a condition that fixes the timeScale override problem between the BoxCast and the restartStage()
+
     public bool stageComplete = false;
     public bool detected = false;
     public bool loseGame = false;
@@ -61,9 +63,10 @@ public class Detection : MonoBehaviour
         Vector3 boxSize = new Vector3(0.4f, 0.4f, 0.4f);
         float castDistance = 5f;
         RaycastHit hitInfo;
-        if (Physics.BoxCast(completionMarker.transform.position, boxSize / 2f, Vector3.up, out hitInfo, Quaternion.identity, castDistance))
+        if (Physics.BoxCast(completionMarker.transform.position, boxSize / 2f, Vector3.up, out hitInfo, Quaternion.identity, castDistance) && completedCounter == 0)
         {
             stageComplete = true;
+            completedCounter++;
         }
     }
 
