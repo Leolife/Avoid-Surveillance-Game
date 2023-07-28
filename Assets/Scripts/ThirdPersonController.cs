@@ -86,7 +86,7 @@ namespace StarterAssets
 
         // player
         public bool disabled =  false; //NEW
-        private float _speed;
+        public float _speed; //NEW
         private float _animationBlend;
         private float _targetRotation = 0.0f;
         private float _rotationVelocity;

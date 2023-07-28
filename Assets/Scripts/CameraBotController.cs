@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -6,6 +7,10 @@ using UnityEngine;
 public class CameraBotController : MonoBehaviour
 {
     public ScreenManager screenManager;
+    public Detection detect;
+    public ThirdPersonController thirdPersonController;
+    public StarterAssetsInputs starterAssetsInputs;
+
     public GameObject[] cameraBot;
     public float speed = 1;
     public float rotationSpeed = 1f;
@@ -19,12 +24,26 @@ public class CameraBotController : MonoBehaviour
     void Start()
     {
         screenManager = GameObject.FindGameObjectWithTag("screenManager").GetComponent<ScreenManager>();
+        detect = GameObject.FindGameObjectWithTag("character").GetComponent<Detection>();
+        thirdPersonController = GameObject.FindGameObjectWithTag("Player").GetComponent<ThirdPersonController>();
+        starterAssetsInputs = GameObject.FindGameObjectWithTag("Player").GetComponent<StarterAssetsInputs>();
     }
 
     void Update()
     {
         if (screenManager.stageLevel == 1)
         {
+            if (detect.detected)
+            {
+                thirdPersonController.MoveSpeed = 1.5f;
+                thirdPersonController._speed = thirdPersonController.MoveSpeed;
+                starterAssetsInputs.sprint = false;
+            }
+            else
+            {
+                thirdPersonController.MoveSpeed = 2.6675f;
+            }
+
             foreach (var cameraBot in cameraBot)
             {
                 if (isPatrolling)
