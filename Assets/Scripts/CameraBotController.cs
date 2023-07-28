@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CameraBotController : MonoBehaviour
 {
+    public ScreenManager screenManager;
     public GameObject[] cameraBot;
     public float speed = 1;
     public float rotationSpeed = 1f;
@@ -15,66 +16,47 @@ public class CameraBotController : MonoBehaviour
     public float currentRotationAmount;
     public float targetRotationAmount;
 
+    void Start()
+    {
+        screenManager = GameObject.FindGameObjectWithTag("screenManager").GetComponent<ScreenManager>();
+    }
 
     void Update()
     {
-        foreach (var cameraBot in cameraBot)
+        if (screenManager.stageLevel == 1)
         {
-            if (isPatrolling)
+            foreach (var cameraBot in cameraBot)
             {
-                currentRotationAmount = Mathf.Round((float)cameraBot.transform.rotation.eulerAngles.y);
-                if (Mathf.Round(currentRotationAmount) == 270)
+                if (isPatrolling)
                 {
-                    targetRotationAmount = Mathf.Round(0);
+                    currentRotationAmount = Mathf.Round((float)cameraBot.transform.rotation.eulerAngles.y);
+                    if (Mathf.Round(currentRotationAmount) == 270)
+                    {
+                        targetRotationAmount = Mathf.Round(0);
+                    }
+                    else
+                    {
+                        targetRotationAmount = Mathf.Round(currentRotationAmount + 90);
+                    }
+
+                    Patrol();
+                    if (!isCoroutineStarted)
+                    {
+                        StartCoroutine(patrolTime());
+                    }
                 }
                 else
                 {
-                    targetRotationAmount = Mathf.Round(currentRotationAmount + 90);
-                }
-
-                Patrol();
-                if (!isCoroutineStarted)
-                {
-                    StartCoroutine(patrolTime());
-                }
-            }
-            else
-            {
-                updateRotation();
-                if (Mathf.Round(currentRotationAmount) == targetRotationAmount)
-                {
-                    isPatrolling = true;
-                    isCoroutineStarted = false;
+                    updateRotation();
+                    if (Mathf.Round(currentRotationAmount) == targetRotationAmount)
+                    {
+                        isPatrolling = true;
+                        isCoroutineStarted = false;
+                    }
                 }
             }
         }
-        /*if (isPatrolling)
-        {
-            currentRotationAmount = Mathf.Round((float)cameraBot.transform.rotation.eulerAngles.y);
-            if (Mathf.Round(currentRotationAmount) == 270)
-            {
-                targetRotationAmount = Mathf.Round(0);
-            }
-            else
-            {
-                targetRotationAmount = Mathf.Round(currentRotationAmount + 90);
-            }
-
-            Patrol();
-            if (!isCoroutineStarted)
-            {
-                StartCoroutine(patrolTime());
-            }
-        }
-        else
-        {
-            updateRotation();
-            if (Mathf.Round(currentRotationAmount) == targetRotationAmount)
-            {
-                isPatrolling = true;
-                isCoroutineStarted = false;
-            }
-        }*/
+        
     }
 
     void Patrol()
@@ -84,8 +66,6 @@ public class CameraBotController : MonoBehaviour
             Vector3 currentPosition = cameraBot.transform.position;
             cameraBot.transform.position = currentPosition + cameraBot.transform.forward * speed * Time.deltaTime;
         }
-        /*Vector3 currentPosition = cameraBot.transform.position;
-        cameraBot.transform.position = currentPosition + cameraBot.transform.forward * speed * Time.deltaTime;*/
     }
 
     void updateRotation()
@@ -103,16 +83,6 @@ public class CameraBotController : MonoBehaviour
                 currentRotationAmount = (float)cameraBot.transform.rotation.eulerAngles.y;
             }
         }
-        /*if (currentRotationAmount < targetRotationAmount && currentRotationAmount != 270)
-        {
-            cameraBot.transform.Rotate(0, rotationSpeed, 0);
-            currentRotationAmount = (float)cameraBot.transform.rotation.eulerAngles.y;
-        }
-        else
-        {
-            cameraBot.transform.Rotate(0, rotationSpeed, 0);
-            currentRotationAmount = (float)cameraBot.transform.rotation.eulerAngles.y;
-        }*/
     }
 
     IEnumerator patrolTime()
