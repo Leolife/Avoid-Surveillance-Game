@@ -14,6 +14,7 @@ TagManager:
   - star1
   - star2
   - star3
+  - screenManager
   layers:
   - Default
   - TransparentFX

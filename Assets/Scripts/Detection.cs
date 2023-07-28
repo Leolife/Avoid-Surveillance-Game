@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class Detection : MonoBehaviour
 {
+    public ScreenManager screenManager;
+
     public GameObject completionMarker;
 
     public Camera[] cameras;
@@ -26,6 +28,7 @@ public class Detection : MonoBehaviour
 
     void Start()
     {
+        screenManager = GameObject.FindGameObjectWithTag("screenManager").GetComponent<ScreenManager>();
         suspicion = GameObject.FindGameObjectWithTag("suspicionBar").GetComponent<ProgressBar>();
         cameraColor = GameObject.FindGameObjectWithTag("securityCamera");
         skinnedRenderer = GetComponent<SkinnedMeshRenderer>();
@@ -72,8 +75,10 @@ public class Detection : MonoBehaviour
 
     public void suspicionBar()
     {
-        if (suspicion.current < 10)
+        if (suspicion.current < 10 && screenManager.stageLevel == 0)
             suspicion.current += Time.deltaTime;
+        else if (suspicion.current < 10 && screenManager.stageLevel == 1)
+            suspicion.current += Time.deltaTime * 2;
         loseGame = suspicion.current >= suspicion.max ? true : false;
     }
 
