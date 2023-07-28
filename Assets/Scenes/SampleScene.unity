@@ -5224,9 +5224,11 @@ MonoBehaviour:
   starterAssetsInputs: {fileID: 0}
   cameraBot:
   - {fileID: 9119690489676804376}
-  speed: 7
+  speed: 5
   secondsMoving: 1.5
-  isCoroutineStarted: 0
+  secondsWaiting: 1
+  isMovementCoroutineStarted: 0
+  isWaitCoroutineStarted: 0
   right: 1
 --- !u!114 &868713909
 MonoBehaviour:

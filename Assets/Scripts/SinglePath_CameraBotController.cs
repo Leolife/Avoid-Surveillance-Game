@@ -14,8 +14,10 @@ public class SinglePath_CameraBotController : MonoBehaviour
     public GameObject[] cameraBot;
     public float speed = 1;
     public float secondsMoving = 1.5f;
+    public float secondsWaiting = 1.0f;
 
-    public bool isCoroutineStarted = false;
+    public bool isMovementCoroutineStarted = false;
+    public bool isWaitCoroutineStarted = false;
     public bool right = true;
     Vector3 goRight = Vector3.right;
     Vector3 goLeft = Vector3.left;
@@ -45,10 +47,13 @@ public class SinglePath_CameraBotController : MonoBehaviour
 
             foreach (var cameraBot in cameraBot)
             {
-                Vector3 direction = right ? goRight : goLeft;
-                cameraBot.transform.Translate(direction * speed * Time.deltaTime);
+                if (!isWaitCoroutineStarted)
+                {
+                    Vector3 direction = right ? goRight : goLeft;
+                    cameraBot.transform.Translate(direction * speed * Time.deltaTime);
+                }
 
-                if (!isCoroutineStarted)
+                if (!isMovementCoroutineStarted)
                 {
                     StartCoroutine(travelTime());
                 }
@@ -60,11 +65,24 @@ public class SinglePath_CameraBotController : MonoBehaviour
     {
         Debug.Log("translation started at: " + Time.time);
 
-        isCoroutineStarted = true;
+        isMovementCoroutineStarted = true;
         yield return new WaitForSeconds(secondsMoving);
         right = right ? false : true;
-        isCoroutineStarted = false;
+        StartCoroutine(waitTime());
+        //isMovementCoroutineStarted = false;
 
         Debug.Log("translation ended at: " + Time.time);
+    }
+
+    IEnumerator waitTime()
+    {
+        Debug.Log("waiting started at: " + Time.time);
+
+        isWaitCoroutineStarted = true;
+        yield return new WaitForSeconds(secondsWaiting);
+        isWaitCoroutineStarted = false;
+        isMovementCoroutineStarted = false;
+
+        Debug.Log("waiting ended at: " + Time.time);
     }
 }
