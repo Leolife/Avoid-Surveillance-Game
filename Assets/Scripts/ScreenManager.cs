@@ -15,7 +15,8 @@ public class ScreenManager : MonoBehaviour
     public ThirdPersonController playerController;
     Detection detection;
     ProgressBar progressBar;
-    public TextMeshProUGUI percentSuspicion;
+    public TextMeshProUGUI percentSuspicionEndScreen;
+    public TextMeshProUGUI percentSuspicionInGame;
     public List<GameObject> spawnPoints;
 
     public int integerPercentSus;
@@ -33,6 +34,9 @@ public class ScreenManager : MonoBehaviour
 
     void Update()
     {
+        integerPercentSus = Mathf.RoundToInt(((progressBar.current / (float)progressBar.max) * 100));
+        percentSuspicionInGame.text = integerPercentSus.ToString() + "% suspicion";
+
         if (detection.isLost() == true)
         {
             gameOver.SetActive(true);
@@ -46,7 +50,7 @@ public class ScreenManager : MonoBehaviour
             star1.SetActive(false);
             star2.SetActive(false);
             star3.SetActive(false);
-            integerPercentSus = Mathf.RoundToInt(((progressBar.current / (float)progressBar.max) * 100));
+
             if (integerPercentSus <= 10)
             {
                 star1.SetActive(true);
@@ -62,7 +66,8 @@ public class ScreenManager : MonoBehaviour
             {
                 star1.SetActive(true);
             }
-            percentSuspicion.text = integerPercentSus.ToString() + "% suspicion";
+
+            percentSuspicionEndScreen.text = integerPercentSus.ToString() + "% suspicion";      
             stageOver.SetActive(true);
             Time.timeScale = 0f;
             playerController.disabled = true;
