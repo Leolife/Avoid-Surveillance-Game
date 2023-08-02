@@ -92,8 +92,10 @@ public class ScreenManager : MonoBehaviour
         Time.timeScale = 0f;
         homeScreen.SetActive(true);
         pauseScreen.SetActive(false);
+        stageOver.SetActive(false);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+        detection.stageComplete = false;
     }
 
     public void pauseGame()

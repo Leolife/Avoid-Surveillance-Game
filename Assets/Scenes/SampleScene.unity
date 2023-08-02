@@ -2823,7 +2823,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 500113530}
         m_TargetAssemblyTypeName: ScreenManager, Assembly-CSharp
-        m_MethodName: nextStage
+        m_MethodName: goHome
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
