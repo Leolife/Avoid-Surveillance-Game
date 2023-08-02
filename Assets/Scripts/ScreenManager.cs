@@ -13,6 +13,7 @@ public class ScreenManager : MonoBehaviour
     public GameObject gameOver;
     public GameObject player;
     public GameObject homeScreen;
+    public GameObject pauseScreen;
     public ThirdPersonController playerController;
     Detection detection;
     ProgressBar progressBar;
@@ -41,6 +42,11 @@ public class ScreenManager : MonoBehaviour
     {
         integerPercentSus = Mathf.RoundToInt(((progressBar.current / (float)progressBar.max) * 100));
         percentSuspicionInGame.text = integerPercentSus.ToString() + "% suspicion";
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            pauseGame();
+        }
 
         if (detection.isLost() == true)
         {
@@ -81,16 +87,47 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+    public void goHome()
+    {
+        Time.timeScale = 0f;
+        homeScreen.SetActive(true);
+        pauseScreen.SetActive(false);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    public void pauseGame()
+    {
+        Time.timeScale = 0f;
+        pauseScreen.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+    
+    public void resumeGame()
+    {
+        Time.timeScale = 1f;
+        pauseScreen.SetActive(false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     public void newGame()
     {
         stageLevel = 0;
         Time.timeScale = 1f;
         StartCoroutine("Teleport");
         homeScreen.SetActive(false);
+        pauseScreen.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         progressBar.current = 0;
         progressBar.fillSuspicionBar();
+    }
+
+    public void exitGame()
+    {
+        Application.Quit();
     }
 
     public void nextStage()
