@@ -12,6 +12,7 @@ public class ScreenManager : MonoBehaviour
     public GameObject star1, star2, star3;
     public GameObject gameOver;
     public GameObject player;
+    public GameObject homeScreen;
     public ThirdPersonController playerController;
     Detection detection;
     ProgressBar progressBar;
@@ -24,6 +25,10 @@ public class ScreenManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+
         gameOver.SetActive(false);
         stageOver.SetActive(false);
         detection = GameObject.FindGameObjectWithTag("character").GetComponent<Detection>();
@@ -76,6 +81,18 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+    public void newGame()
+    {
+        stageLevel = 0;
+        Time.timeScale = 1f;
+        StartCoroutine("Teleport");
+        homeScreen.SetActive(false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        progressBar.current = 0;
+        progressBar.fillSuspicionBar();
+    }
+
     public void nextStage()
     {
         stageLevel++;
@@ -105,7 +122,6 @@ public class ScreenManager : MonoBehaviour
     IEnumerator Teleport()
     {
         yield return new WaitForSeconds(0.01f);
-        player.transform.position = new Vector3(5.3f, 0.5f, -6.5f);
         player.transform.position = spawnPoints[stageLevel].transform.position;
         player.transform.rotation = Quaternion.Euler(0, 0, 0);
         yield return new WaitForSeconds(0.01f);
