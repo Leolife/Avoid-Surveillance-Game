@@ -39,6 +39,8 @@ public class ScreenManager : MonoBehaviour
 
         if (detection.isLost() == true)
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
             gameOver.SetActive(true);
             Time.timeScale = 0f;
         }
@@ -93,6 +95,7 @@ public class ScreenManager : MonoBehaviour
         StartCoroutine("Teleport");
         detection.stageComplete = false;
         stageOver.SetActive(false);
+        gameOver.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         progressBar.current = 0;

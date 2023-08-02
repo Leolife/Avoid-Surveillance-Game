@@ -69,12 +69,11 @@ public class SinglePath_CameraBotController : MonoBehaviour
         yield return new WaitForSeconds(secondsMoving);
         right = right ? false : true;
         StartCoroutine(waitTime());
-        //isMovementCoroutineStarted = false;
 
         Debug.Log("translation ended at: " + Time.time);
     }
 
-    IEnumerator waitTime()
+    IEnumerator waitTime() //adds a wait time in between direction changes (makes avoiding camera possible but keeps it difficult)
     {
         Debug.Log("waiting started at: " + Time.time);
 
