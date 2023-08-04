@@ -42,6 +42,7 @@ public class Detection : MonoBehaviour
 
         foreach (var camera in cameras)
         {
+            //takes the cameras' frustum (what camera sees) to test if it can see player
             Plane[] cameraFrustum = GeometryUtility.CalculateFrustumPlanes(camera);
 
             if (GeometryUtility.TestPlanesAABB(cameraFrustum, bounds))
@@ -68,6 +69,7 @@ public class Detection : MonoBehaviour
         RaycastHit hitInfo;
         foreach (var marker in completionMarker)
         {
+            //casts a box above completion markers to detect player
             if (Physics.BoxCast(marker.transform.position, boxSize / 2f, Vector3.up, out hitInfo, Quaternion.identity, castDistance) && completedCounter == 0)
             {
                 stageComplete = true;

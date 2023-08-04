@@ -154,8 +154,6 @@ public class ScreenManager : MonoBehaviour
 
     public void nextStage()
     {
-        //isLastStage = currentStage == lastStage ? true : false;
-
         currentStage = isLastStage ? 0 : currentStage + 1;
 
         Time.timeScale = 1f;
