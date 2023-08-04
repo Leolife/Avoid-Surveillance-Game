@@ -7,7 +7,7 @@ suspicion bar will fill at a rate specific to the stage, and once full you lose 
 
 ## More Details & Features
 * Random phrases display on UI upon each stage completion
-  * Possible trhrough use of a text document and a dictionary data structure to read the phrases into
+  * Possible through use of a text document and a dictionary data structure to read the phrases into
 *  on stage 2, the rate at which suspicion bar fills is doubled
 *  on stage 2, if detected you are slowed
 *  cannot press "Advance" button to go to next stage on the final stage
