@@ -32,7 +32,7 @@ public class SinglePath_CameraBotController : MonoBehaviour
 
     void Update()
     {
-        if (screenManager.stageLevel == 1)
+        if (screenManager.currentStage == 1)
         {
             if (detect.detected)
             {

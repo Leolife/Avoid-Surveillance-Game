@@ -25,7 +25,12 @@ public class ScreenManager : MonoBehaviour
     public bool phrasePicked = false;
 
     public int integerPercentSus;
-    public int stageLevel = 0;
+
+    public Button advanceStage;
+
+    public int currentStage = 0;
+    public int lastStage = 1;
+    public bool isLastStage = false;
 
     void Start()
     {
@@ -68,6 +73,9 @@ public class ScreenManager : MonoBehaviour
             star2.SetActive(false);
             star3.SetActive(false);
 
+            isLastStage = currentStage == lastStage ? true : false;
+            advanceStage.interactable = isLastStage ? false : true;
+
             if (integerPercentSus <= 10)
             {
                 star1.SetActive(true);
@@ -86,11 +94,13 @@ public class ScreenManager : MonoBehaviour
 
             percentSuspicionEndScreen.text = integerPercentSus.ToString() + "% suspicion";      
             stageOver.SetActive(true);
+
             if (phrasePicked == false)
             {
                 completionPhraseScript.pickPhrase();
                 phrasePicked = true;
             }
+
             Time.timeScale = 0f;
             playerController.disabled = true;
         }
@@ -125,7 +135,7 @@ public class ScreenManager : MonoBehaviour
 
     public void newGame()
     {
-        stageLevel = 0;
+        currentStage = 0;
         Time.timeScale = 1f;
         StartCoroutine("Teleport");
         homeScreen.SetActive(false);
@@ -144,7 +154,10 @@ public class ScreenManager : MonoBehaviour
 
     public void nextStage()
     {
-        stageLevel++;
+        //isLastStage = currentStage == lastStage ? true : false;
+
+        currentStage = isLastStage ? 0 : currentStage + 1;
+
         Time.timeScale = 1f;
         StartCoroutine("Teleport");
         detection.stageComplete = false;
@@ -173,7 +186,7 @@ public class ScreenManager : MonoBehaviour
     IEnumerator Teleport()
     {
         yield return new WaitForSeconds(0.01f);
-        player.transform.position = spawnPoints[stageLevel].transform.position;
+        player.transform.position = spawnPoints[currentStage].transform.position;
         player.transform.rotation = Quaternion.Euler(0, 0, 0);
         yield return new WaitForSeconds(0.01f);
         detection.completedCounter = 0; 

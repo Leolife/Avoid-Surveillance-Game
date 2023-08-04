@@ -78,9 +78,9 @@ public class Detection : MonoBehaviour
 
     public void suspicionBar()
     {
-        if (suspicion.current < 10 && screenManager.stageLevel == 0)
+        if (suspicion.current < 10 && screenManager.currentStage == 0)
             suspicion.current += Time.deltaTime;
-        else if (suspicion.current < 10 && screenManager.stageLevel == 1)
+        else if (suspicion.current < 10 && screenManager.currentStage == 1)
             suspicion.current += Time.deltaTime * 2;
         loseGame = suspicion.current >= suspicion.max ? true : false;
     }
