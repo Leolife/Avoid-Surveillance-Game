@@ -21,6 +21,9 @@ public class ScreenManager : MonoBehaviour
     public TextMeshProUGUI percentSuspicionInGame;
     public List<GameObject> spawnPoints;
 
+    public StageCompletionPhrasing completionPhraseScript;
+    public bool phrasePicked = false;
+
     public int integerPercentSus;
     public int stageLevel = 0;
 
@@ -36,6 +39,7 @@ public class ScreenManager : MonoBehaviour
         progressBar = GameObject.FindGameObjectWithTag("suspicionBar").GetComponent<ProgressBar>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ThirdPersonController>();
+        completionPhraseScript = GameObject.FindGameObjectWithTag("screenManager").GetComponent<StageCompletionPhrasing>();
     }
 
     void Update()
@@ -43,7 +47,7 @@ public class ScreenManager : MonoBehaviour
         integerPercentSus = Mathf.RoundToInt(((progressBar.current / (float)progressBar.max) * 100));
         percentSuspicionInGame.text = integerPercentSus.ToString() + "% suspicion";
 
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Escape) && !stageOver.activeInHierarchy && !gameOver.activeInHierarchy && !homeScreen.activeInHierarchy)
         {
             pauseGame();
         }
@@ -82,6 +86,11 @@ public class ScreenManager : MonoBehaviour
 
             percentSuspicionEndScreen.text = integerPercentSus.ToString() + "% suspicion";      
             stageOver.SetActive(true);
+            if (phrasePicked == false)
+            {
+                completionPhraseScript.pickPhrase();
+                phrasePicked = true;
+            }
             Time.timeScale = 0f;
             playerController.disabled = true;
         }
@@ -125,6 +134,7 @@ public class ScreenManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         progressBar.current = 0;
         progressBar.fillSuspicionBar();
+        phrasePicked = false;
     }
 
     public void exitGame()
@@ -143,6 +153,7 @@ public class ScreenManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         progressBar.current = 0;
         progressBar.fillSuspicionBar();
+        phrasePicked = false;
     }
 
     public void restartStage()
@@ -156,6 +167,7 @@ public class ScreenManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         progressBar.current = 0;
         progressBar.fillSuspicionBar();
+        phrasePicked = false;
     }
 
     IEnumerator Teleport()
