@@ -11,7 +11,7 @@ public class Detection : MonoBehaviour
 {
     public ScreenManager screenManager;
 
-    public GameObject completionMarker;
+    public GameObject[] completionMarker;
 
     public Camera[] cameras;
     public GameObject cameraColor;
@@ -66,10 +66,13 @@ public class Detection : MonoBehaviour
         Vector3 boxSize = new Vector3(0.4f, 0.4f, 0.4f);
         float castDistance = 5f;
         RaycastHit hitInfo;
-        if (Physics.BoxCast(completionMarker.transform.position, boxSize / 2f, Vector3.up, out hitInfo, Quaternion.identity, castDistance) && completedCounter == 0)
+        foreach (var marker in completionMarker)
         {
-            stageComplete = true;
-            completedCounter++;
+            if (Physics.BoxCast(marker.transform.position, boxSize / 2f, Vector3.up, out hitInfo, Quaternion.identity, castDistance) && completedCounter == 0)
+            {
+                stageComplete = true;
+                completedCounter++;
+            }
         }
     }
 
