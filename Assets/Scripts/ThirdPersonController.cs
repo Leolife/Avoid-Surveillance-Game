@@ -435,7 +435,10 @@ namespace StarterAssets
                 }
                 else
                 {
-                    _input.crouch = false;
+                    if (CanStand == true)
+                    {
+                        _input.crouch = false;
+                    }
                 }
 
 
