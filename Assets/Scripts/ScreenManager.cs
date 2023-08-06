@@ -26,6 +26,7 @@ public class ScreenManager : MonoBehaviour
     public int integerPercentSus;
 
     public Button advanceStage;
+    public Button pauseButton;
 
     public int currentStage = 0;
     public int lastStage = 1;
@@ -61,6 +62,7 @@ public class ScreenManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             gameOver.SetActive(true);
+            pauseButton.interactable = false;
             Time.timeScale = 0f;
         }
 
@@ -93,6 +95,7 @@ public class ScreenManager : MonoBehaviour
 
             percentSuspicionEndScreen.text = integerPercentSus.ToString() + "% suspicion";      
             stageOver.SetActive(true);
+            pauseButton.interactable = false;
 
             if (phrasePicked == false)
             {
@@ -109,6 +112,7 @@ public class ScreenManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         homeScreen.SetActive(true);
+        pauseButton.interactable = false;
         pauseScreen.SetActive(false);
         stageOver.SetActive(false);
         Cursor.visible = true;
@@ -120,6 +124,7 @@ public class ScreenManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         pauseScreen.SetActive(true);
+        pauseButton.interactable = false;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
@@ -128,6 +133,7 @@ public class ScreenManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         pauseScreen.SetActive(false);
+        pauseButton.interactable = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -138,6 +144,7 @@ public class ScreenManager : MonoBehaviour
         Time.timeScale = 1f;
         StartCoroutine("Teleport");
         homeScreen.SetActive(false);
+        pauseButton.interactable = true;
         pauseScreen.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -159,6 +166,7 @@ public class ScreenManager : MonoBehaviour
         StartCoroutine("Teleport");
         detection.stageComplete = false;
         stageOver.SetActive(false);
+        pauseButton.interactable = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         progressBar.current = 0;
@@ -172,6 +180,7 @@ public class ScreenManager : MonoBehaviour
         StartCoroutine("Teleport");
         detection.stageComplete = false;
         stageOver.SetActive(false);
+        pauseButton.interactable = true;
         gameOver.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

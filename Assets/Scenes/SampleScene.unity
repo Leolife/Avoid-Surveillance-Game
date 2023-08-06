@@ -3852,6 +3852,7 @@ MonoBehaviour:
   phrasePicked: 0
   integerPercentSus: 0
   advanceStage: {fileID: 871277111}
+  pauseButton: {fileID: 1917072718}
   currentStage: 0
   lastStage: 1
   isLastStage: 0
