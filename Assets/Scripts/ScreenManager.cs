@@ -59,6 +59,7 @@ public class ScreenManager : MonoBehaviour
 
         if (detection.isLost() == true)
         {
+            playerController.disabled = true;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
             gameOver.SetActive(true);
@@ -122,6 +123,7 @@ public class ScreenManager : MonoBehaviour
 
     public void pauseGame()
     {
+        playerController.disabled = true;
         Time.timeScale = 0f;
         pauseScreen.SetActive(true);
         pauseButton.interactable = false;
@@ -131,6 +133,7 @@ public class ScreenManager : MonoBehaviour
     
     public void resumeGame()
     {
+        playerController.disabled = false;
         Time.timeScale = 1f;
         pauseScreen.SetActive(false);
         pauseButton.interactable = true;
@@ -179,8 +182,9 @@ public class ScreenManager : MonoBehaviour
         Time.timeScale = 1f;
         StartCoroutine("Teleport");
         detection.stageComplete = false;
-        stageOver.SetActive(false);
         pauseButton.interactable = true;
+        pauseScreen.SetActive(false);
+        stageOver.SetActive(false);
         gameOver.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -191,6 +195,7 @@ public class ScreenManager : MonoBehaviour
 
     IEnumerator Teleport()
     {
+        playerController.disabled = true;
         yield return new WaitForSeconds(0.01f);
         player.transform.position = spawnPoints[currentStage].transform.position;
         player.transform.rotation = Quaternion.Euler(0, 0, 0);
